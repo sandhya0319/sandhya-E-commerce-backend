@@ -16,7 +16,6 @@ module.exports = {
           model:"products",
           key:"id",
         }
-
       },
       category_id: {
         type: Sequelize.INTEGER,
@@ -33,7 +32,7 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
-      }
+      },
     });
   },
   async down(queryInterface, Sequelize) {

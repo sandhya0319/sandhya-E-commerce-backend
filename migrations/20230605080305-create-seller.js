@@ -18,7 +18,7 @@ module.exports = {
         allowNull: false,
       },
       phone: {
-        type: Sequelize.BIGINT,
+        type: Sequelize.STRING,
         allowNull: false,
       },
       company: {

@@ -11,15 +11,26 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      users.hasOne(models.cart,{
+        foreignKey:"user_id"
+      })
+      users.hasMany(models.order_address,{
+        foreignKey:"user_id"
+      })
+      users.hasOne(models.user_address,{
+        foreignKey:"user_id"
+      })
+      users.belongsToMany(models.product,{
+        through:'order_product'
+      })
     }
   }
   users.init({
     name: DataTypes.STRING,
-    emial: DataTypes.STRING,
+    email: DataTypes.STRING,
     password: DataTypes.STRING,
     mobile: DataTypes.STRING,
     gender: DataTypes.STRING,
-    address: DataTypes.STRING
   }, {
     sequelize,
     paranoid:true,
