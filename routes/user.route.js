@@ -5,5 +5,6 @@ const router=require('express').Router();
 
 router.post('/adddata',registercontroller.adddata);
 router.post('/login',registercontroller.logindata);
+router.get('/displayusers',registercontroller.displayusers);
 
 module.exports=router;

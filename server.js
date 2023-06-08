@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 const jwt = require('jsonwebtoken');
 const app=express();
 const cors=require('cors')
+const multer = require('multer');
 
 app.use(express.json());
 
@@ -12,12 +13,22 @@ app.use(cors())
 
 dotenv.config();
 //routes
+// app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(express.static(`${__dirname}/public/images`));
 
 const router=require('./routes/product.route.js')
-app.use('/',router);
+app.use('/products',router);
 
-const router2=require('./routes/user.route.js')
+const router2=require('./routes/register.route.js')
 app.use('/users',router2);
+
+const loginroute=require('./routes/login.route.js')
+app.use('/users',loginroute);
+
+const cartroute=require('./routes/cart.route.js')
+app.use('/cart',cartroute);
+
 
 //test api
 app.get('/',(req,res)=>{

@@ -1,5 +1,6 @@
 const db =require('../models');
 const {sequelize}=require('../models');
+const cookieParser = require('cookie-parser')
 const bcrypt = require('bcrypt');
 const jwt=require('jsonwebtoken');
 const users=db.users;
@@ -11,11 +12,11 @@ const adddata=async(req,res)=>{
     const t = await db.sequelize.transaction();
     try {
         const { name, email,mobile,gender, password } = {...req.body};
-        //const oldUser = await users.findOne({ email });
-        console.log(req.body)
-        // if (oldUser) {
-        //   return res.status(409).send("User Already Exist. Please Login");
-        // }
+        const oldUser = await users.findOne({ email });
+        //console.log(req.body)
+        if (oldUser) {
+          return res.status(409).send("User Already Exist. Please Login");
+        }
     
         //Encrypt user password
         encryptedPassword = await bcrypt.hash(password, 10);
@@ -23,7 +24,7 @@ const adddata=async(req,res)=>{
         //console.log(encryptedPassword,"===")
        
         const data=await users.create({...req.body,password:encryptedPassword},
-            { include: { model: cart } },
+             { include: { model: cart } },
         );
 
         res.send(data); 
@@ -35,11 +36,29 @@ const adddata=async(req,res)=>{
     }
 }
 
+const displayusers=async(req,res)=>{
+  const t = await db.sequelize.transaction();
+  try {
+      //const { name, email,mobile,gender, password } = {...req.body};
+      const userdata = await users.findAll({});
+      console.log("userdata",userdata)
+  
+
+      res.send(userdata); 
+      await t.commit();
+
+  } catch (error) {
+      res.send(error);
+      await t.rollback();
+  }
+}
+
 const logindata=async(req,res)=>{
     try {
         // Get user input
-        const { id,email, password,name,mobile,gender } = req.body;
+        const { id,name, email,mobile,gender, password } = {...req.body};
     
+        //console.log(email,"===")
         // Validate user input
         if (!(email && password)) {
           res.status(400).send("All input is required");
@@ -61,9 +80,10 @@ const logindata=async(req,res)=>{
             console.log("ttt",token)
           // save user token
           userdata.token = token;
-            //console.log(userdata.token,"----")
-          // user
+          
           res.status(200).json(token);
+          res.send(token);
+          //res.cookie('authcookie',token,{maxAge:900000,httpOnly:true}) 
         }
         res.status(400).send("Invalid Credentials");
       } catch (err) {
@@ -75,5 +95,5 @@ const logindata=async(req,res)=>{
 module.exports={
     adddata,
     logindata,
-    //displaydata,
+    displayusers,
 }
