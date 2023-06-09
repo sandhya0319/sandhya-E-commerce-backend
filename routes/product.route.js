@@ -19,5 +19,6 @@ router.post('/addproduct',upload.single('product_img'),productcontroller.addprod
 
 router.get('/displaydata',productcontroller.displaydata);
 
+router.delete('/deleteproduct/:id',productcontroller.deleteproduct);
 
 module.exports=router;
