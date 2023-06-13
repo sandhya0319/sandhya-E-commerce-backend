@@ -1,11 +1,12 @@
 //const { sequelize } = require("../models");
 const db = require('../models');
 const { sequelize } = require('../models');
-const cart_product = require('../models/cart_product');
-
-const product = db.product;
-// const category=db.category;
 const cart = db.cart;
+const cart_product = db.cart_product;
+// const cart_product = require('../models/cart_product');
+const product = db.product;
+const seller = db.seller;
+// const category=db.category;
 
 
 
@@ -34,32 +35,41 @@ const addproduct = async (req, res) => {
 }
 
 const displaydata = async (req, res) => {
-    const t = await db.sequelize.transaction();
     try {
-        const data = await product.findAll({});
 
-        const newData = data.map(item => {
-            const imageUrl = `/images/${item.product_img}`; 
-            return {...item.toJSON(),imageUrl
+        const id = req.params.id;
+        const cartData = await cart_product.findAll({
+            where: { user_id: id },
+            attributes: ['product_id', 'quantity']
+        });
+
+        const productData = await product.findAll({});
+
+        const newData = productData.map(item => {
+            const imageUrl = `/images/${item.product_img}`;
+            const isInCart = cartData.some(cartItem => cartItem.product_id === item.id);
+            const quantity = isInCart ? cartData.find(cartItem => cartItem.product_id === item.id).quantity : 0;
+            return {
+                ...item.toJSON(),
+                imageUrl,
+                isInCart,
+                quantity: quantity || 0
             };
         });
 
-
         res.json(newData);
-        await t.commit();
-
     } catch (error) {
         res.send(error);
         await t.rollback();
     }
 }
 
-const deleteproduct=async(req,res)=>{
+const deleteproduct = async (req, res) => {
     const t = await db.sequelize.transaction();
-    const id=req.params.id;
+    const id = req.params.id;
     try {
-         
-        await product.destroy({where:{id:id}});
+
+        await product.destroy({ where: { id: id } });
         res.send('record deleted successfully..')
         await t.commit();
 

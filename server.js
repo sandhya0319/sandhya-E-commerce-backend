@@ -28,6 +28,12 @@ app.use('/users', loginroute);
 const cartroute = require('./routes/cart.route.js')
 app.use('/cart', cartroute);
 
+const checkoutroute = require('./routes/checkout.route.js')
+app.use('/checkout', checkoutroute);
+
+const myorders = require('./routes/order.route.js')
+app.use('/order', myorders);
+
 
 //test api
 app.get('/', (req, res) => {

@@ -11,16 +11,18 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      product.belongsToMany(models.category,{through:'product_category'});
+      product.belongsToMany(models.category, { through: 'product_category' });
       // product.belongsToMany(models.seller,{through:'seller_product'})
-      product.belongsToMany(models.cart,{
+      product.belongsToMany(models.cart, {
         through: "cart_product",
         foreignKey: 'product_id',
         otherKey: 'cart_id'
       })
-      product.belongsToMany(models.order,{
-        through:"order_product"
-      })
+      product.belongsToMany(models.order, {
+        through: models.order_product, // Use the association model "order_product"
+        foreignKey: 'product_id',
+        otherKey: 'order_id'
+      });
     }
   }
   product.init({
@@ -31,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
     price: DataTypes.INTEGER
   }, {
     sequelize,
-    paranoid:true,
+    paranoid: true,
     modelName: 'product',
   });
   return product;

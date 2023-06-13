@@ -1,5 +1,6 @@
  const jwt =require('jsonwebtoken');
 
+ const validation=require('../validations/index.js')
 // function auth(req,res,next){
 
 //     const authcookie = req.cookies.authcookie;
