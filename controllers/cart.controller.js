@@ -66,6 +66,9 @@ const updateCartQuantity = async (req, res) => {
 
 
 const displaycart = async (req, res) => {
+
+  // const token = req.headers["authorization"];   
+  // console.log(token,"-====token")
   const t = await db.sequelize.transaction();
   try {
     const user_id = req.params.user_id;

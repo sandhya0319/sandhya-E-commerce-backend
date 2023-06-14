@@ -34,6 +34,10 @@ app.use('/checkout', checkoutroute);
 const myorders = require('./routes/order.route.js')
 app.use('/order', myorders);
 
+const categoryroute = require('./routes/category.route.js')
+app.use('/category', categoryroute);
+
+
 
 //test api
 app.get('/', (req, res) => {
