@@ -1,11 +1,10 @@
-//const { sequelize } = require("../models");
 const db = require('../models');
 const { sequelize } = require('../models');
 const cart = db.cart;
 const cart_product = db.cart_product;
 // const cart_product = require('../models/cart_product');
 const product = db.product;
-const seller = db.seller;
+ const seller = db.seller;
 // const category=db.category;
 
 

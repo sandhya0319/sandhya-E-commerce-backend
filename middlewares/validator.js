@@ -1,7 +1,5 @@
 const createHttpError = require('http-errors')
-//* Include joi to check error type 
 const Joi = require('joi')
-//* Include all validators
 const Validators = require('../validators')
 
 module.exports = function(validator) {

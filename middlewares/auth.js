@@ -1,7 +1,5 @@
  const jwt =require('jsonwebtoken');
 
- const validation=require('../validators/index.js')
-
 const verifyJWT = (req, res, next) => {
     // console.log(req.headers,"===")
      const token = req.headers["authorization"];   
@@ -16,11 +14,13 @@ const verifyJWT = (req, res, next) => {
         //         res.json({ auth: false, message: "you are failed to authenticate"});
         //     } 
         //     else {
-        //         req.id = decoded.id;
+        //         JSON.parse(req.id(token.split('.')[1])) = decoded.id;
+        //         console.log(req.id,"iddddddddd")
         //         next();
         //     }
-        //     // next();
+            
         // });
+        
     }
 };
 

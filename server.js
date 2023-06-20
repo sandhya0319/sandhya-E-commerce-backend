@@ -37,6 +37,8 @@ app.use('/order', myorders);
 const categoryroute = require('./routes/category.route.js')
 app.use('/category', categoryroute);
 
+const datatableroute = require('./routes/datatable.route.js')
+app.use('/product', datatableroute);
 
 
 //test api
